@@ -1,0 +1,31 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3001:3000"
+    networks:
+      - backend
+
+  db:
+    image: redis:7
+    restart: unless-stopped
+#    ports: pas besoin de l'exposé a l'extérieur
+#      - '6379:6379'
+    volumes:
+      - data_redis:/data
+    networks:
+      - backend
+
+  static:
+    image: nginx:1.17
+    volumes:
+      - ./assets:/usr/share/nginx/html
+    ports:
+      - "80:80"
+
+volumes:
+  data_redis:
+
+networks:
+  backend:
+
