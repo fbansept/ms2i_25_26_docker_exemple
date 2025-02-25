@@ -23,6 +23,10 @@ redisClient.on('connect', () => {
 // Connexion au client Redis
 redisClient.connect().catch(console.error);
 
+app.get('/', async (req, res) => {
+    res.send(`Y'a rien a voir ici`);
+});
+
 app.get('/time', async (req, res) => {
     const currentTime = new Date().toISOString();
 
