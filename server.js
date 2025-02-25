@@ -24,7 +24,7 @@ redisClient.on('connect', () => {
 redisClient.connect().catch(console.error);
 
 app.get('/', async (req, res) => {
-    res.send(`Y'a rien a voir ici`);
+    res.send(`Y'a rien a voir ici !!!!`);
 });
 
 app.get('/time', async (req, res) => {
