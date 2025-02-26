@@ -5,6 +5,9 @@ services:
       replicas: 3
     networks:
       - backend
+      - proxy
+    depends_on:
+      - db
 
   reverse-proxy:
     image: nginx:1.27
@@ -14,7 +17,10 @@ services:
     volumes:
       - ./reverse-proxy.conf:/etc/nginx/templates/default.conf.template
     networks:
-      - backend
+      - proxy
+    depends_on:
+      - app
+      - static
 
   db:
     image: redis:7
@@ -30,12 +36,15 @@ services:
     image: nginx:1.27
     volumes:
       - ./assets:/usr/share/nginx/html
-    ports:
-      - "81:80"
+    networks:
+      - proxy
+#    ports:
+#      - "81:80"
 
 volumes:
   data_redis:
 
 networks:
   backend:
+  proxy:
 
