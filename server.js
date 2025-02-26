@@ -1,5 +1,7 @@
 const express = require('express');
 const { createClient } = require('redis');
+const os = require('os');
+
 const app = express();
 const port = 3000;
 
@@ -29,11 +31,12 @@ app.get('/', async (req, res) => {
 
 app.get('/time', async (req, res) => {
     const currentTime = new Date().toISOString();
+    const osType = os.hostname();
 
     try {
         // Enregistrer la date dans Redis
-        await redisClient.lPush('times', currentTime);
-        res.send(`The current time is ${currentTime}`);
+        await redisClient.lPush('times', `${currentTime} - ${osType}`);
+        res.send(`The current time is ${currentTime} and the OS is ${osType}`);
     } catch (error) {
         res.status(500).send('Erreur lors de l\'enregistrement de la date');
     }
